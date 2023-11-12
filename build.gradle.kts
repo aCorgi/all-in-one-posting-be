@@ -20,7 +20,17 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-webflux") {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-reactor-netty")
+    }
+
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    implementation("io.projectreactor:reactor-core:3.5.11")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
