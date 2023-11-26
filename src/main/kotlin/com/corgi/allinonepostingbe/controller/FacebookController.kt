@@ -20,6 +20,7 @@ class FacebookController(
     @GetMapping("/accounts/by-user-id/{userId}")
     fun getPageAccounts(
         @PathVariable userId: String,
+        // FIXME : 로그인한 사용자 ID 를 가지고 DB 조회해서 DB 저장된 accessToken 을 사용하도록 수정
         @RequestParam accessToken: String
     ): FacebookPageAccountsResponse {
         return facebookService.getPageAccounts(userId, accessToken)
