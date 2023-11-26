@@ -56,6 +56,7 @@ class SecurityConfig(
             }
             .authorizeHttpRequests { requests ->
                 requests.requestMatchers("/oauth2/**").permitAll()
+                    .requestMatchers("/v1/facebook/**").permitAll()
                     .anyRequest().authenticated()
             }
 
