@@ -2,6 +2,7 @@ package com.corgi.allinonepostingbe.service
 
 import com.corgi.allinonepostingbe.api.FacebookApiWebClient
 import com.corgi.allinonepostingbe.dto.FacebookPageAccountsResponse
+import com.corgi.allinonepostingbe.dto.FacebookUserAccountResponse
 import com.corgi.allinonepostingbe.exception.ResourceNotFoundException
 import org.springframework.stereotype.Service
 
@@ -9,6 +10,15 @@ import org.springframework.stereotype.Service
 class FacebookService(
     private val facebookApiWebClient: FacebookApiWebClient
 ) {
+
+    fun getUserAccount(
+        accessToken: String
+    ): FacebookUserAccountResponse {
+        return facebookApiWebClient.getUserAccount(accessToken)
+            .blockOptional()
+            .orElseThrow { ResourceNotFoundException("사용자 계정을 가져올 수 없습니다.") }
+    }
+
     fun getPageAccounts(
         userId: String,
         accessToken: String
