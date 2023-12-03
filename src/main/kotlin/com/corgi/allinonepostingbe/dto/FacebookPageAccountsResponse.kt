@@ -9,9 +9,9 @@ data class FacebookPageAccountsResponse(
 data class FacebookPageAccountsData(
     val id: String,
     val name: String,
-    val access_token: String,
+    val accessToken: String,
     val category: String,
-    val category_list: List<FacebookPageAccountsDataCategoryList>,
+    val categoryList: List<FacebookPageAccountsDataCategoryList>,
     val tasks: List<String>
 )
 
