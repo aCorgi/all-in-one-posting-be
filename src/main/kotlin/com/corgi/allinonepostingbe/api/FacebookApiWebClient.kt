@@ -2,6 +2,7 @@ package com.corgi.allinonepostingbe.api
 
 import com.corgi.allinonepostingbe.dto.FacebookPageAccountsResponse
 import com.corgi.allinonepostingbe.dto.FacebookUserAccountResponse
+import com.corgi.allinonepostingbe.dto.FeedPublishingRequest
 import com.corgi.allinonepostingbe.properties.FacebookApiProperties
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
@@ -48,6 +49,28 @@ class FacebookApiWebClient(
             .header("Authorization", "Bearer $accessToken")
             .retrieve()
             .bodyToMono<FacebookPageAccountsResponse>()
+            .doOnError {
+                println(it.message)
+            }
+    }
+
+    fun publishFeed(
+        pageId: String,
+        accessToken: String,
+        feedPublishingRequest: FeedPublishingRequest
+    ): Mono<String> {
+        return facebookGraphWebClient
+            .mutate()
+            .build()
+            .post()
+            .uri { uriBuilder ->
+                uriBuilder.path("/$pageId/feed")
+                    .build()
+            }
+            .header("Authorization", "Bearer $accessToken")
+            .bodyValue(feedPublishingRequest)
+            .retrieve()
+            .bodyToMono<String>()
             .doOnError {
                 println(it.message)
             }

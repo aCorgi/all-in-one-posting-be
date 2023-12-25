@@ -1,8 +1,8 @@
 package com.corgi.allinonepostingbe.controller
 
 import com.corgi.allinonepostingbe.dto.FacebookPageAccountsResponse
-import com.corgi.allinonepostingbe.dto.FacebookPostingRequest
 import com.corgi.allinonepostingbe.dto.FacebookUserAccountResponse
+import com.corgi.allinonepostingbe.dto.FeedPublishingRequest
 import com.corgi.allinonepostingbe.service.FacebookService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import reactor.core.publisher.Mono
 
 @RestController
 @RequestMapping("/v1/facebook")
@@ -34,10 +35,14 @@ class FacebookController(
         return facebookService.getPageAccounts(userId, accessToken)
     }
 
-    @PostMapping("/post")
-    fun post(
-        @RequestBody facebookPostingRequest: FacebookPostingRequest
-    ) {
-        return facebookService.post()
+    @PostMapping("/feed")
+    fun publishFeed(
+        @RequestBody feedPublishingRequest: FeedPublishingRequest
+    ): Mono<String> {
+        return facebookService.publishFeed(
+            pageId = feedPublishingRequest.pageId,
+            accessToken = feedPublishingRequest.accessToken,
+            feedPublishingRequest = feedPublishingRequest
+        )
     }
 }

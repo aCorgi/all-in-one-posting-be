@@ -3,8 +3,10 @@ package com.corgi.allinonepostingbe.service
 import com.corgi.allinonepostingbe.api.FacebookApiWebClient
 import com.corgi.allinonepostingbe.dto.FacebookPageAccountsResponse
 import com.corgi.allinonepostingbe.dto.FacebookUserAccountResponse
+import com.corgi.allinonepostingbe.dto.FeedPublishingRequest
 import com.corgi.allinonepostingbe.exception.ResourceNotFoundException
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Mono
 
 @Service
 class FacebookService(
@@ -28,6 +30,11 @@ class FacebookService(
             .orElseThrow { ResourceNotFoundException("페이지 계정을 가져올 수 없습니다.") }
     }
 
-    fun post() {
+    fun publishFeed(
+        pageId: String,
+        accessToken: String,
+        feedPublishingRequest: FeedPublishingRequest
+    ): Mono<String> {
+        return facebookApiWebClient.publishFeed(pageId, accessToken, feedPublishingRequest)
     }
 }
